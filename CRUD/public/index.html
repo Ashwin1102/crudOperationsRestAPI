@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien System</title>
+</head>
+<!-- <span className={x.obj.sub}></span>
+                            <span className="name">{x.obj.name}</span> 
+                            <span className="tech">{x.obj.tech}</span> -->
+<body>
+    <div id="homepage">
+        <h1>Hire a alien in your area!</h1>
+        <div id="alien"></div>
+
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/react@15/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    </div>
+    <!-- Create React Component -->
+    <script type="text/babel">
+        var Aliens= React.createClass({
+            getInitialState: function() {
+                return ({
+                    aliens: []
+                });
+            },
+            render: function() {
+                var aliens = this.state.aliens;
+                aliens = aliens.map(function(x, index){
+                    return(
+                        <li key={index}>
+                            
+                            <span className={x.name}></span>
+                            <span className="name">Name : {x.name}</span> <br/>
+                            <span className="tech">Technology : {x.tech}</span> <br/><br/>
+                            
+                        
+                        </li>
+                    );
+                });
+                return(
+                    <div id="alien-container">
+                        <form id="search" onSubmit={this.handleSubmit}>
+                            <input type="submit" ref="name" value="Find Aliens"/>    
+                        </form>    
+                        <ul>{aliens}</ul>
+                    </div>
+                );
+            },
+            handleSubmit: function(e){
+                e.preventDefault();
+                var name =this.refs.name.value;
+                fetch('/aliens?name='+name).then(function(data){
+                    return data.json();
+                }).then(json=> {
+                    this.setState({
+                        aliens: json
+                    });
+                    console.log(json);
+                });
+            }
+        });
+        ReactDOM.render(<Aliens/>, document.getElementById('alien'));
+    </script>
+</body>
+</html>
